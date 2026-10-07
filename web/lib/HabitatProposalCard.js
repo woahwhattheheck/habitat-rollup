@@ -584,8 +584,10 @@ export default class HabitatProposalCard extends HTMLElement {
         }
         node.dispatchEvent(new Event('change'));
       }
-      // new CustomButtonHandler(node.parentElement.querySelector('.right'), (v) => change(this, 1 * v));
-      // new CustomButtonHandler(node.parentElement.querySelector('.left'), (v) => change(this, -1 * v));
+      if (!isSignalContainer) {
+        new CustomButtonHandler(node.parentElement.querySelector('.right'), (v) => change(this, 1 * v));
+        new CustomButtonHandler(node.parentElement.querySelector('.left'), (v) => change(this, -1 * v));
+      }
     }
     for (const node of this.shadowRoot.querySelectorAll('habitat-sentiment-slider')) {
       node.addEventListener('change', async (evt) => {
@@ -1100,11 +1102,6 @@ export default class HabitatProposalCard extends HTMLElement {
       this.infoTags.style.display = 'none';
       for (const node of this.controls.querySelectorAll('button')) {
         node.classList.remove('bold');
-      }
-      if (this.userVotedShares > this.lastVotedShares) {
-        this.shadowRoot.querySelector('#add').classList.add('bold');
-      } else if (this.userVotedShares < this.lastVotedShares) {
-        this.shadowRoot.querySelector('#sub').classList.add('bold');
       }
 
       const e = this.shadowRoot.querySelector('#infobox .b').children;
